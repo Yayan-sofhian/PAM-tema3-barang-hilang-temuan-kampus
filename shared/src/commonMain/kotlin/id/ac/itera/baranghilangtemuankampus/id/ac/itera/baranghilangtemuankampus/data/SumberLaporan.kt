@@ -41,7 +41,22 @@ class SumberLaporanPalsu : Sumber<Laporan> {
     }
 
     override fun pantau(id: Int): Flow<Laporan> = flow {
-        emit(ambilLaporan(id))
+        val laporanAwal = ambilLaporan(id)
+        emit(laporanAwal)
+
+        emit(
+            laporanAwal.copy(
+                status = StatusLaporan.Diproses("Petugas Kampus")
+            )
+        )
+
+        delay(100)
+
+        emit(
+            laporanAwal.copy(
+                status = StatusLaporan.Selesai("Barang sudah ditemukan")
+            )
+        )
     }
 }
 
